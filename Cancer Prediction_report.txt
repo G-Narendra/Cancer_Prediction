@@ -1,0 +1,45 @@
+Objective
+To classify breast cancer as malignant or benign using diagnostic measurements and logistic regression.
+
+Dataset Overview
+The dataset comprises 569 entries with features like radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry, and fractal dimension. The target variable is the diagnosis (M for malignant, B for benign).
+
+Methodology
+Data Import and Exploration:
+
+Loaded the dataset and checked its structure and summary statistics.
+Data Preprocessing:
+
+Defined the target variable (y as diagnosis) and predictors (X excluding id and Unnamed: 32).
+Train-Test Split:
+
+Split data into 70% training and 30% testing sets.
+Model Selection and Training:
+
+Chose and trained a logistic regression model with a maximum of 5000 iterations.
+Model Prediction:
+
+Predicted the diagnosis on the test set.
+Model Evaluation:
+
+Evaluated the model using confusion matrix, accuracy score, and classification report.
+Results
+Confusion Matrix:
+
+[[97,  5],
+ [ 2, 67]]
+Accuracy Score: 0.959
+Classification Report:
+
+            precision    recall  f1-score   support
+
+         B       0.98      0.95      0.97       102
+         M       0.93      0.97      0.95        69
+
+  accuracy                           0.96       171
+ macro avg       0.96      0.96      0.96       171
+weighted avg 0.96 0.96 0.96 171
+
+
+#### Conclusion
+The logistic regression model achieved a high accuracy of 95.9% in predicting breast cancer diagnosis, with stron
