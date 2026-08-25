@@ -118,6 +118,15 @@ In medical AI, **Recall** is prioritized over Accuracy to ensure no malignant ca
 | High-dimensional feature space | PCA for dimensionality reduction + feature importance analysis | Reduces noise and computation while identifying which features actually drive predictions |
 | Model interpretability vs accuracy trade-off | Report both accuracy metrics AND feature importance for the best model | Medical stakeholders need to understand predictions, not just trust them |
 
+## ML Engineering Decisions
+
+| Challenge | Decision | Why |
+|---|---|---|
+| Model evaluation needs statistical rigor | Added `ml_evaluation_utils.py` with bootstrapped confidence intervals (1000 resamples, 95% CI) | Medical predictions without CI are unreliable — a model with 85% accuracy could be 75-95% in production |
+| Model stability unknown | Cross-validation (5-fold) implemented in evaluation utilities | Single train/test split gives noisy estimates — CV reveals variance across folds |
+| Class imbalance in cancer detection | Stratified splitting + class-weighted models | Naive training predicts majority class — stratification preserves class distribution |
+| Feature importance not interpretable | SHAP values + coefficient analysis | Doctors need to know *why* the model predicts cancer — black-box predictions are useless clinically |
+
 ## 👨‍💻 Author
 
 **Narendra (G‑Narendra)** AI | ML | Python | Full Stack | GenAI Enthusiast
