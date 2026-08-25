@@ -109,6 +109,15 @@ In medical AI, **Recall** is prioritized over Accuracy to ensure no malignant ca
 
 ---
 
+## Engineering Decisions & Challenges Solved
+
+| Challenge | Decision | Why |
+|---|---|---|
+| Binary classification with medical consequences | Multiple model comparison (Logistic Regression, SVM, Random Forest, XGBoost) | No single model is universally best — comparing them reveals which approach handles this specific data distribution best |
+| Feature scaling affects distance-based models | StandardScaler applied before SVM and KNN, not before tree models | Trees are scale-invariant; SVM/KNN are not — applying scaling uniformly wastes computation and can hurt tree models |
+| High-dimensional feature space | PCA for dimensionality reduction + feature importance analysis | Reduces noise and computation while identifying which features actually drive predictions |
+| Model interpretability vs accuracy trade-off | Report both accuracy metrics AND feature importance for the best model | Medical stakeholders need to understand predictions, not just trust them |
+
 ## 👨‍💻 Author
 
 **Narendra (G‑Narendra)** AI | ML | Python | Full Stack | GenAI Enthusiast
