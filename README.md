@@ -1,138 +1,103 @@
 # 🩺 Cancer Prediction using Machine Learning
-### Clinical Decision Support for Benign vs. Malignant Classification
 
-<p align="center">
-<img src="https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python">
-<img src="https://img.shields.io/badge/Scikit--Learn-ML-F7931E?style=for-the-badge&logo=scikitlearn">
-<img src="https://img.shields.io/badge/XGBoost-High%20Accuracy-2EAD33?style=for-the-badge">
-<img src="https://img.shields.io/badge/Metrics-ROC--AUC%20|%20F1-8E44AD?style=for-the-badge">
-<img src="https://img.shields.io/badge/Health%20AI-Diagnostic%20Assistant-red?style=for-the-badge">
-</p>
+**Binary classification of breast cancer diagnosis (benign vs. malignant) using Logistic Regression.**
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-ML-F7931E.svg)](https://scikit-learn.org/)
+[![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
-## 🌟 Overview
+## 🎯 Problem Statement
 
-Early diagnosis is the most critical factor in increasing survival rates for cancer patients. This project develops a high-precision **Supervised Machine Learning** system designed to distinguish between **Benign** (non-cancerous) and **Malignant** (cancerous) tumors. By analyzing cellular features such as texture, radius, and symmetry, the model acts as a reliable second-opinion tool for healthcare professionals.
+Breast cancer is one of the most common cancers worldwide. Early and accurate diagnosis is critical for treatment outcomes. Pathologists manually examine tissue samples under microscopes, which is time-consuming and subject to inter-observer variability. A machine learning model that can classify tumors as benign or malignant based on computed features (radius, texture, perimeter, area, etc.) could assist pathologists by providing a second opinion.
 
-
-
----
-
-## 🎯 Key Features
-
-* ✅ **Binary Classification:** Specializes in high-stakes differentiation between benign and malignant states.
-* ✅ **Feature Importance Analysis:** Identifies which medical markers (e.g., clump thickness, bare nuclei) contribute most to the diagnosis.
-* ✅ **Multi-Model Bake-off:** Benchmarks Logistic Regression, Decision Trees, Random Forest, and XGBoost to ensure the highest clinical reliability.
-* ✅ **Holistic Evaluation:** Prioritizes **Recall** and **F1-Score** to minimize dangerous False Negatives in a medical context.
+The Wisconsin Breast Cancer Dataset contains 569 instances with 30 numeric features computed from digitized images of fine needle aspirates (FNA) of breast masses. Features describe characteristics of the cell nuclei present in the image, such as radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry, and fractal dimension.
 
 ---
 
-## 🧠 Tech Stack
+## 📊 What I Built
 
-| Category | Tools |
-| :--- | :--- |
+A simple ML classification pipeline:
+
+1. **Data Loading**: Load the Cancer dataset from GitHub (YBIFoundation/Dataset)
+2. **Preprocessing**: Drop ID and unnamed columns, define target (diagnosis) and features
+3. **Train/Test Split**: 70/30 split with random_state=2529 for reproducibility
+4. **Model Training**: Logistic Regression with max_iter=5000
+5. **Evaluation**: Confusion matrix, accuracy score, classification report
+
+### Key Results
+
+| Metric | Value |
+|---|---|
+| **Model** | Logistic Regression |
+| **Train Size** | 70% |
+| **Test Size** | 30% |
+| **Evaluation** | Confusion Matrix, Accuracy, Classification Report |
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology |
+|---|---|
 | **Language** | Python 3.8+ |
-| **ML Framework** | Scikit-learn, XGBoost |
-| **Data Handling** | Pandas, NumPy |
-| **Visualization** | Matplotlib, Seaborn |
-| **Environment** | Jupyter Notebook |
+| **Data Processing** | Pandas |
+| **ML Framework** | Scikit-Learn |
+| **Model** | Logistic Regression |
+| **Evaluation** | Confusion Matrix, Accuracy, Classification Report |
 
 ---
 
 ## 📁 Project Structure
 
-```bash
+```
 Cancer_Prediction/
-├── src/
-│   └── Cancer_Prediction.ipynb    # Main pipeline: cleaning, training, & evaluation
-├── docs/
-│   ├── Cancer_Prediction_intro.txt  # Project goals & clinical context
-│   └── Cancer_Prediction_report.txt # Final metrics & model comparison
-├── requirements.txt                 # Project dependencies
-└── README.md                        # Documentation
-
+├── Cancer_Prediction.ipynb         # Main notebook with full pipeline
+├── ml_evaluation_utils.py          # Evaluation utilities (CV, confidence intervals)
+├── README.md
+└── LICENSE
 ```
 
 ---
 
-## ⚙️ Installation & Setup
-
-### 1️⃣ Clone the Repository
+## 🔧 How to Run
 
 ```bash
-git clone [https://github.com/G-Narendra/Cancer_Prediction.git](https://github.com/G-Narendra/Cancer_Prediction.git)
-cd Cancer_Prediction
+# Install dependencies
+pip install pandas scikit-learn jupyter
 
-```
-
-### 2️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-
-```
-
-### 3️⃣ Start the Analysis
-
-```bash
+# Run the notebook
 jupyter notebook Cancer_Prediction.ipynb
-
 ```
 
 ---
 
-## 📊 Methodology & Evaluation
+## 🧪 Engineering Decisions
 
-### Data Preprocessing
-
-The model processes high-dimensional medical data (such as the Wisconsin Breast Cancer dataset), focusing on:
-
-* **Feature Scaling:** Normalizing cell measurements to a uniform range for better model convergence.
-* **Correlation Mapping:** Identifying multi-collinearity between features like `radius` and `perimeter`.
-
-### Performance Metrics
-
-In medical AI, **Recall** is prioritized over Accuracy to ensure no malignant cases are missed:
-
-* **ROC-AUC Score:** Measures the model's ability to distinguish between classes.
-* **Confusion Matrix:** Provides a clear breakdown of True Positives and False Negatives.
-* **Precision/Recall:** Balances the cost of over-diagnosis vs. missed diagnosis.
+| Decision | Rationale |
+|---|---|
+| **Logistic Regression** | Simple, interpretable model that works well for binary classification with structured features. Good baseline before trying more complex models. |
+| **70/30 Split** | Standard split ratio for small-medium datasets. Provides enough data for training while reserving sufficient data for evaluation. |
+| **max_iter=5000** | Default max_iter (100) was insufficient for convergence with this dataset. Increased to ensure the optimizer finds the optimal solution. |
+| **Dropped 'Unnamed: 32'** | This column was empty/null in the dataset — dropping it prevents noise in the model. |
+| **Random State 2529** | Fixed random state ensures reproducibility of the train/test split across runs. |
 
 ---
 
-## 🚀 Future Roadmap
+## ⚠️ Limitations
 
-* [ ] **Explainable AI (XAI):** Integrating SHAP or LIME to explain *why* a specific prediction was made.
-* [ ] **Cross-Cancer Support:** Extending the model to handle lung and prostate cancer datasets.
-* [ ] **Cloud Deployment:** Building a secure API to allow real-time diagnostic testing via a web interface.
-
----
-
-## Engineering Decisions & Challenges Solved
-
-| Challenge | Decision | Why |
-|---|---|---|
-| Binary classification with medical consequences | Multiple model comparison (Logistic Regression, SVM, Random Forest, XGBoost) | No single model is universally best — comparing them reveals which approach handles this specific data distribution best |
-| Feature scaling affects distance-based models | StandardScaler applied before SVM and KNN, not before tree models | Trees are scale-invariant; SVM/KNN are not — applying scaling uniformly wastes computation and can hurt tree models |
-| High-dimensional feature space | PCA for dimensionality reduction + feature importance analysis | Reduces noise and computation while identifying which features actually drive predictions |
-| Model interpretability vs accuracy trade-off | Report both accuracy metrics AND feature importance for the best model | Medical stakeholders need to understand predictions, not just trust them |
-
-## ML Engineering Decisions
-
-| Challenge | Decision | Why |
-|---|---|---|
-| Model evaluation needs statistical rigor | Added `ml_evaluation_utils.py` with bootstrapped confidence intervals (1000 resamples, 95% CI) | Medical predictions without CI are unreliable — a model with 85% accuracy could be 75-95% in production |
-| Model stability unknown | Cross-validation (5-fold) implemented in evaluation utilities | Single train/test split gives noisy estimates — CV reveals variance across folds |
-| Class imbalance in cancer detection | Stratified splitting + class-weighted models | Naive training predicts majority class — stratification preserves class distribution |
-| Feature importance not interpretable | SHAP values + coefficient analysis | Doctors need to know *why* the model predicts cancer — black-box predictions are useless clinically |
-
-## 👨‍💻 Author
-
-**Narendra (G‑Narendra)** AI | ML | Python | Full Stack | GenAI Enthusiast
-
-📧 [Email Me](mailto:narendragandikota2540@gmail.com) | 💼 [LinkedIn](https://linkedin.com/in/g-narendra/) | 👨‍💻 [GitHub](https://github.com/G-Narendra)
+- **No cross-validation**: The current pipeline uses a single train/test split. Cross-validation would provide more reliable performance estimates.
+- **No confidence intervals**: Model predictions lack uncertainty quantification. Bootstrapped confidence intervals would be needed for clinical use.
+- **No feature scaling**: Logistic Regression is sensitive to feature scales. StandardScaler should be applied for optimal performance.
+- **Simple model**: Logistic Regression may not capture non-linear relationships. Ensemble methods (XGBoost, Random Forest) could improve performance.
 
 ---
 
-<p align="center">⭐ If you find this project useful, feel free to give it a star! 🚀</p>
+## ⚠️ Disclaimer
+
+This is an educational project for learning ML concepts. It is not intended for clinical use. Medical diagnosis requires qualified professionals and validated clinical tools.
+
+---
+
+*Built as part of MSc Data Science coursework — demonstrating fundamental ML classification pipeline.*
